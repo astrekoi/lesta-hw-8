@@ -18,7 +18,7 @@ server {
 
     # Grafana
     location /grafana/ {
-        proxy_pass http://$MINIKUBE_IP:$GRAFANA_NODEPORT/;
+        proxy_pass http://$MINIKUBE_IP:$GRAFANA_NODEPORT/grafana/;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
@@ -56,11 +56,22 @@ sudo rm -f /etc/nginx/sites-enabled/default
 echo "🛠️ Проверка конфигурации nginx..."
 sudo nginx -t
 
-echo "🔄 Перезапуск nginx..."
-sudo systemctl reload nginx
+echo "🔄 Запуск/перезапуск nginx..."
+# Проверяем статус nginx и запускаем соответственно
+if sudo systemctl is-active --quiet nginx; then
+    echo "Nginx активен, перезагружаем конфигурацию..."
+    sudo systemctl reload nginx
+else
+    echo "Nginx не активен, запускаем сервис..."
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
+fi
 
 echo "🔓 Открытие порта 80 в firewall (ufw)..."
 sudo ufw allow 80
+
+echo "📊 Проверка статуса nginx..."
+sudo systemctl status nginx --no-pager
 
 echo "✅ Nginx настроен!"
 echo "Приложение доступно:     http://<ВНЕШНИЙ_IP_СЕРВЕРА>/ping"
