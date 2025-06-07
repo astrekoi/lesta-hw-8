@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lesta-config
+data:
+  API_PORT: "8080"
+  DB_URL: "postgres://USER_DB:PWD_DB@postgres:5432/DB"
+  POSTGRES_DB: "DB"
+  POSTGRES_USER: "USER_DB"
+  POSTGRES_PASSWORD: "PWD_DB"
