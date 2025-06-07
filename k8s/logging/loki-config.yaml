@@ -19,6 +19,20 @@ data:
         instance_addr: 127.0.0.1
         kvstore:
           store: inmemory
+    schema_config:
+      configs:
+        - from: "2020-10-24"
+          store: boltdb-shipper
+          object_store: filesystem
+          schema: v11
+          index:
+            prefix: index_
+            period: 24h
+    storage_config:
+      boltdb_shipper:
+        active_index_directory: /tmp/loki/boltdb-shipper-active
+        cache_location: /tmp/loki/boltdb-shipper-cache
+        shared_store: filesystem
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -18,6 +18,13 @@ spec:
         image: grafana/grafana:10.1.5
         ports:
         - containerPort: 3000
+        env:
+        - name: GF_SERVER_DOMAIN
+          value: "37.9.53.110"
+        - name: GF_SERVER_ROOT_URL
+          value: "http://37.9.53.110/grafana/"
+        - name: GF_SERVER_SERVE_FROM_SUB_PATH
+          value: "true"
         volumeMounts:
         - name: grafana-storage
           mountPath: /var/lib/grafana

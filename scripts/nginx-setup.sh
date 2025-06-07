@@ -22,12 +22,14 @@ server {
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host \$host;
+        proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
     }
 
-    # Loki API (только если требуется прямой доступ)
+    # Loki API
     location /loki/ {
         proxy_pass http://$MINIKUBE_IP:$LOKI_NODEPORT/;
         proxy_set_header Host \$host;
