@@ -35,6 +35,7 @@ docker build -t lesta-start:7.1 .
 
 echo "🚀 Развертывание приложения..."
 kubectl apply -f k8s/
+kubectl apply -f k8s/logging/
 
 echo "⏳ Ожидание готовности PostgreSQL..."
 kubectl wait --for=condition=ready pod -l app=postgres --timeout=180s
